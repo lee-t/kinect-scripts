@@ -1,0 +1,46 @@
+from twisted.internet import protocol , reactor , endpoints , defer
+from twisted.protocols import basic
+
+
+class numpy_protocol(basic.LineReceiver):
+
+    def __init__(self):
+        #self.setRawMode()
+        pass
+
+    def connectionMade(self):
+        print('connectionMade')
+        self.transport.write(b'connectionmade')
+
+    def lineReceived(self, line):
+        print(line)
+        self.file = line.decode('UTF-8') + '.txt'
+        #print(self.file)
+        self.transport.write(b'file_recieved')
+        self.setRawMode()
+
+    def rawDataReceived(self, data):
+        print(data)
+        d = self.factory.defer_write(self.file,data)
+        self.transport.write(b'data_recieved')
+
+class numpy_Factory(protocol.ServerFactory):
+    protocol = numpy_protocol
+
+    def write_to_file(self,file,data):
+        f = open(file,'a+b')
+        #data = str(data) + '\n'
+        f.write(data)
+        f.close()
+
+    def defer_write(self,file,data):
+        return defer.succeed(self.write_to_file(file,data))
+
+    def cv_convert(self, file, data):
+	
+
+
+numpyEndpoint = endpoints.serverFromString(reactor,"tcp:1550")
+numpyEndpoint.listen(numpy_Factory())
+
+reactor.run()
