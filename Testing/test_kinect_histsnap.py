@@ -2,6 +2,7 @@ import freenect
 import cv2
 import numpy as np
 import datetime
+import matplotlib
 matplotlib.use("TkAgg")
 from matplotlib import pyplot as plt
 
@@ -53,10 +54,10 @@ if __name__ == "__main__":
         #display RGB image
         cv2.imshow('RGB image',frame)
         #display depth image
-        cv2.imshow('Depth image',darray)
+        #cv2.imshow('Depth image',darray)
  
 		#draw histogram
-		histogram(darray, 'hist')
+        histogram(darray, 'hist')
  
  
         # quit program when 'esc' key is pressed
