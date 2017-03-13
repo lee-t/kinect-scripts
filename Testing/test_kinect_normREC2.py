@@ -26,17 +26,18 @@ def get_depth():
 #function to get depth array from kinect
 def get_depth_arrayNormalized():
 
-	frame = frame.copy()
+	frame,_ = freenect.sync_get_depth()
 
 	# constrain the frame to 0-255
-	frame = np.clip(frame, 768, 1023)
-	frame = frame - 768
+	frame = np.clip(frame, 245, 500)
+	frame = frame - 245
 	frame = np.uint8(frame)
 	# ok, now we have a uint8 object to deal with
+	return frame
 	
 #deine the codec and create videowriter obj
-fourcc = cv2.VideoWriter_fourcc('h','2','6','4')
-out_d = cv2.VideoWriter('/media/pi/WDpassport/Kinect/12h_8fps_d.h264',fourcc,10.0,(640,480),False)    
+#fourcc = cv2.VideoWriter_fourcc('h','2','6','4')
+#out_d = cv2.VideoWriter('/media/pi/WDpassport/Kinect/12h_8fps_d.h264',fourcc,10.0,(640,480),False)    
 #out_RGB = cv2.VideoWriter('/media/pi/WDpassport/Kinect/12h_8fpsRGB.h264',fourcc,8.0,(640,480))    
 
 
@@ -48,7 +49,7 @@ if __name__ == "__main__":
 		#get a frame from depth sensor
 		depth = get_depth_arrayNormalized()
 		#record depth to file
-		out_d.write(depth)
+		#out_d.write(depth)
 		#out_RGB.write(frame)
 		
 		#display RGB image

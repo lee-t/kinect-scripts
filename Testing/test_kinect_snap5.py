@@ -71,10 +71,14 @@ if __name__ == "__main__":
 			cv2.imwrite( filenamer, frame)		
 			#print 'DONE - RGB'
 		elif k == ord('h'):
-			#print '"b" key pressed, display hist'
+			print '"h" key pressed, display hist'
+			ts = datetime.datetime.now()
+			filenamep = "{}plot.png".format(ts.strftime("%H_%M_%S"))
 			plt.hist(darray.ravel(), bins = 56, range=(0, np.max(darray)))
 			plt.show()
 			#fig.show()
-
+			plt.savefig(filenamep)
 			
 	cv2.destroyAllWindows()
+	#Stop all data streams from kinect
+	freenect.sync_stop()

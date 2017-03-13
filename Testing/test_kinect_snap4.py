@@ -2,8 +2,8 @@ import freenect
 import cv2
 import numpy as np
 import datetime
-matplotlib.use("TkAgg")
-from matplotlib import pyplot as plt
+import matplotlib
+
 
 
 #freenect.set_depth_mode(, freenect.RESOLUTION_MEDIUM, freenect.DEPTH_MM)
@@ -31,13 +31,7 @@ def get_depth_arrayMM():
     array,_ = freenect.sync_get_depth(0,format=freenect.DEPTH_MM)
     return array    
 
-def histogram(img, *kargs, **kwargs):
-	title = kargs[0] if len(kargs)==1 else 'DEFAULT'
 
-	plt.clf()
-	plt.hist(img.ravel(), bins = 56, range=(0, np.max(img)))
-	plt.draw()
-	plt.pause(.001)
  
  
 if __name__ == "__main__":
@@ -56,7 +50,7 @@ if __name__ == "__main__":
         cv2.imshow('Depth image',darray)
  
 		#draw histogram
-		histogram(darray, 'hist')
+		#histogram(darray, 'hist')
  
  
         # quit program when 'esc' key is pressed
